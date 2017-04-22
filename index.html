@@ -1,1 +1,55 @@
-111111
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        .ballon{width: 81px;height: 119px;background: url(ballon.png) no-repeat;
+            position: absolute;top: 500px;left: 100px;  }
+    </style>
+</head>
+<body>
+
+</body>
+<script>
+    function Ballon() {
+        this.left = Math.random() * 800;
+        this.top = 500;
+        this.score = Math.ceil(Math.random() * 7);
+        this.init();
+        this.fly();
+    }
+    Ballon.prototype.init=function () {
+        this.dom = document.createElement("div");
+        this.dom.className = "ballon";
+        document.body.appendChild(this.dom);
+
+        this.dom.style.left = this.left + "px";
+        this.x = -(Math.ceil(Math.random() * 4) - 1) * 96;
+        this.y = -parseInt(this.score / 4) * 120;
+        this.dom.style.backgroundPosition = this.x + "px " + this.y + "px";
+    };
+    Ballon.prototype.fly=function () {
+        var self=this;
+        self.timer=setInterval(function () {
+            self.dom.onclick=function(){
+                self.dom.style.backgroundImage="url('boom.png')";
+                setTimeout(function(){self.dom.style.display="none"},200)
+            };
+            if(self.top>20){
+                self.top-=5*self.score;
+                self.dom.style.top=self.top+"px";}
+            else{
+                setTimeout(function(){self.dom.style.display="none"},100)
+            }
+        },100);
+    };
+
+    setInterval(function () {
+        new Ballon();
+    },200)
+
+
+</script>
+</html>
